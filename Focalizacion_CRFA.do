@@ -8,7 +8,7 @@
 *=========*
 *#0. SETUP*
 *=========*
-holahoal
+
 glo dd "D:\Brenda\Focalizacion"
 set excelxlsxlargefile on
 cd "$dd\datos"
