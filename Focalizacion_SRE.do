@@ -101,8 +101,7 @@ CRITERIOS DE FOCALIZACION 2020 - OPERATIVIZADO:
 
 use "BasePuraIntegrada.dta", clear
 keep if estado == "1" //activas
-*drop if gestion == "3" //chau privadas
-
+keep if niv_mod == "F0"
 merge 1:1 cod_mod anexo using `sre2020_173'
 
 
@@ -337,9 +336,9 @@ gsort -sre_focatot_upp -sre_upp -foc_residencias -sre_prio1 -plan -sre_foca4 ///
 gen sre_rank_upp = _n if sre_foca1 == 1
 
 
-br sre_rank_upp sre_focatot_upp sre_upp foc_residencias sre_prio1 plan sre_foca1 ///
-sre_foca2 sre_foca3 sre_foca4 sre_foca5 sre_foca6 plan sre_77 if sre_77 == 3
- 
+br sre_rank_upp sre_rank sre_focatot_upp sre_upp foc_residencias sre_prio1 plan sre_foca1 ///
+sre_foca2 sre_foca3 sre_foca4 sre_foca5 sre_foca6 plan sre_77 if sre_foca1 == 1
+
  *****************************
  
  graph bar (count) sre_foca1 if sre_rank_upp <= 77, over(sre_foca3) blabel(total)	///
