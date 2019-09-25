@@ -9,7 +9,7 @@
 *#0. SETUP*
 *=========*
 
-glo dd "D:\Brenda\Focalizacion"
+glo dd "C:\Users\analistaup2\Google Drive\Trabajo\MINEDU_trabajo\UPP\Actividades\Focalizacion"
 set excelxlsxlargefile on
 cd "$dd\datos"
 

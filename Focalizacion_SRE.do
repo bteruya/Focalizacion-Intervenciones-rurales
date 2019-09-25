@@ -9,7 +9,7 @@
 *#0. SETUP*
 *=========*
 
-glo dd "D:\Brenda\Focalizacion"
+glo dd "C:\Users\analistaup2\Google Drive\Trabajo\MINEDU_trabajo\UPP\Actividades\Focalizacion"
 set excelxlsxlargefile on
 cd "$dd\datos"
 
@@ -57,9 +57,21 @@ gen anexo = 0
 tempfile sre2020_173
 save `sre2020_173'
 
-
 *Nota: las 77 focalizadas son un subconjunto de las 173 identificadas como
 *residencias
+
+*****************************************
+*#1.2. Total de residencias SRE 		*
+*****************************************
+import excel "DISER\Padrón SRE 2019 (80 IIEE).xlsx", sheet("Hoja2") ///
+cellrange(A4:Y84) firstrow clear
+
+destring COD_MOD , gen(cod_mod)
+gen anexo = 0
+
+tempfile sre_plan_multisectorial
+save `sre_plan_multisectorial'
+
 
 *******************************************************************************
 
@@ -99,12 +111,15 @@ label def sre_77 1 "No Focalizada (96)" 3 "Focalizada (77)"
 label val sre_77 sre_77 
 label var sre_77 "¿La IE es focalizada por DISER?"
 
+merge 1:1 cod_mod anexo using `sre_plan_multisectorial', gen(x)
+
 *1.	Parte de la sre2020_173, totalidad de residencias
 gen sre_foca1 = _merge == 3
 label var sre_foca1 "Total de residencias en el país"
 label def sre_foca1 0 "No residencia" 1 "Si residencia"
 label val sre_foca1 sre_foca1
 tab sre_foca1 sre_77
+drop _m
 
 *2.	IE publicas de gestión privada o gestión directa
 gen sre_foca2 = gestion == "1" | gestion == "2" if !missing(gestion)
@@ -164,7 +179,7 @@ egen sre_focatot = rowmean(sre_foca1 sre_foca2 sre_foca3 sre_foca4 sre_foca5 sre
 CRITERIOS DE PRIORIZACION 2020 - OPERATIVIZADO:
 1.	SRE focalizado en 2019
 2.	Tiene Qaliwarma
-3.	Plan multisectorial (?)
+3.	Plan multisectorial (IE del padrón)
 */
 
 *1.	SRE focalizado en 2019
@@ -176,12 +191,39 @@ gen sre_prio1 = qali_warma == 1 //Aquí modificar para realizar el filtro
 label var sre_prio1 "IE con Qaliwarma"
 label def sre_prio1 0 "No Qaliwarma" 1 "Sí Qaliwarma"
 label val sre_prio1 sre_prio1 
-
 tab sre_prio1 if foc_residencias == 1&  sre_focatot == 1
+
+
+*3.	Plan multisectorial (IE zona amazonía)
+gen plan = x == 3 
+label var plan "IIEE del Plan multisectorial"
+label def plan 0 "No parte del plan" 1 "Parte del plan"
+label val plan plan
+
+drop x
+tab plan if foc_residencias == 1&  sre_focatot == 1 & sre_prio1 == 1
 
 *================*
 *#5. RANKING	 *
 *================*
+label def foc_residencias 0 "No focalizada" 1 "Residencia focalizada 2019"
+label val foc_residencias foc_residencias  
+
+egen sre_priotot = rowmean(foc_residencias sre_prio1 plan) if sre_foca1 == 1
+
+gsort -sre_focatot -sre_priotot -foc_residencias -sre_prio1 plan
+*ranking según promedio de criterios de priorizacion y que sea un crfa de diser
+gen sre_rank = _n if sre_foca1 == 1
+
+
+br sre_rank sre_focatot sre_priotot foc_residencias sre_prio1 sre_foca1 ///
+sre_foca2 sre_foca3 sre_foca4 sre_foca5 sre_foca6 plan sre_77 if sre_77 == 3
+
+tab sre_foca1 if sre_77 == 3
+tab sre_foca2 if sre_77 == 3
+tab sre_foca3 if sre_77 == 3
+tab sre_foca4 if sre_77 == 3
+tab sre_foca5 if sre_77 == 3
 
 
 *=================*
@@ -232,7 +274,7 @@ egen sre_focatot_upp = rowmean(sre_foca1 sre_foca2 sre_foca3)
 CRITERIOS DE PRIORIZACION 2020 - OPERATIVIZADO:
 1.	SRE focalizado en 2019
 2.	Tiene Qaliwarma
-3.	Plan multisectorial (?)
+3.	Plan multisectorial (IE del padrón)
 4.  Parte de comunidades nativas en sre2020_173
 5.	Quintil 1 y 2 de pobreza según CPV
 6.	Zona de VRAEM o frontera
@@ -244,6 +286,7 @@ tab foc_residencias  if  sre_focatot_upp == 1
 
 *2.	Que tienen Qaliwarma 
 tab sre_prio1 if foc_residencias == 1&  sre_focatot_upp == 1
+*
 
 *4.  Parte de comunidades nativas en sre2020_173
 tab sre_foca4 if sre_focatot_upp == 1 & foc_residencias == 1 & sre_prio1 == 1
