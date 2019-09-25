@@ -224,6 +224,33 @@ tab sre_foca2 if sre_77 == 3
 tab sre_foca3 if sre_77 == 3
 tab sre_foca4 if sre_77 == 3
 tab sre_foca5 if sre_77 == 3
+tab sre_foca6 if sre_77 == 3
+
+graph bar (count) sre_77 if sre_77 == 3, over(sre_foca3) blabel(total)	///
+bargap(5) graphregion(color(white)) title("Según área", position(12))  ///
+note("Nota: Rural incluye los tres gradientes de ruralidad", size(vsmall) position(7)) ///
+ ytitle("N. SRE") name(SRE_rural, replace) 
+ 
+graph bar (count) sre_77 if sre_77 == 3, over(sre_foca4) blabel(total)	///
+bargap(5) graphregion(color(white)) title("Según tipo de comunidad", position(12))  ///
+ ytitle("N. SRE") name(SRE_nativa, replace)
+ 
+ 
+ graph bar (count) sre_77 if sre_77 == 3, over(sre_foca5) blabel(total)	///
+bargap(5) graphregion(color(white)) title("Según quintiles de pobreza", position(12))  ///
+ ytitle("N. SRE") name(SRE_pob, replace)
+
+graph bar (count) sre_77 if sre_77 == 3, over(sre_foca6) blabel(total)	///
+bargap(5) graphregion(color(white)) title("Según tipo de zona", position(12))  ///
+ ytitle("N. SRE") name(SRE_zona, replace)
+ 
+graph combine SRE_rural SRE_nativa SRE_pob SRE_zona , ///
+ graphregion(color(white))  title("Distribución de IIEE SRE", position(12)) ///
+subtitle("De las 77 IIEE focalizadas por DISER") ///
+caption("Fuente: Elaboración propria con datos de DISER y Base Pura", size(vsmall) position(7)) /// 
+note("Nota: Todas las SRE focalizadas son públicas y brindan el servicio de residencia", size(vsmall) position(7)) 
+
+graph export "Output\SRE.png", replace
 
 
 *=================*
@@ -286,18 +313,59 @@ tab foc_residencias  if  sre_focatot_upp == 1
 
 *2.	Que tienen Qaliwarma 
 tab sre_prio1 if foc_residencias == 1&  sre_focatot_upp == 1
-*
+
+*3.	Plan multisectorial (IE del padrón)
+tab plan if foc_residencias == 1&  sre_focatot_upp == 1 & sre_prio1 == 1
 
 *4.  Parte de comunidades nativas en sre2020_173
-tab sre_foca4 if sre_focatot_upp == 1 & foc_residencias == 1 & sre_prio1 == 1
+tab sre_foca4 if sre_focatot_upp == 1 & foc_residencias == 1 & sre_prio1 == 1 ///
+& plan==1
 
 *5.	Quintil 1 y 2 de pobreza según CPV
 tab sre_foca5 if sre_focatot_upp == 1 & foc_residencias == 1 & sre_prio1 == 1 & ///
- sre_foca4 == 1
+ sre_foca4 == 1 & plan==1
 
 *6. Zona de VRAEM o frontera
 tab sre_foca6 if sre_focatot_upp == 1 & foc_residencias == 1 & sre_prio1 == 1 & ///
- sre_foca4 == 1 & sre_foca5 == 1
+ sre_foca4 == 1 & sre_foca5 == 1 & plan==1
 
+egen sre_upp = rowmean(foc_residencias sre_prio1 plan sre_foca4 sre_foca5 sre_foca6 ) if sre_foca1 == 1
+
+gsort -sre_focatot_upp -sre_upp -foc_residencias -sre_prio1 -plan -sre_foca4 ///
+-sre_foca5 -sre_foca6
+*ranking según promedio de criterios de priorizacion y que sea un crfa de diser
+gen sre_rank_upp = _n if sre_foca1 == 1
+
+
+br sre_rank_upp sre_focatot_upp sre_upp foc_residencias sre_prio1 plan sre_foca1 ///
+sre_foca2 sre_foca3 sre_foca4 sre_foca5 sre_foca6 plan sre_77 if sre_77 == 3
+ 
+ *****************************
+ 
+ graph bar (count) sre_foca1 if sre_rank_upp <= 77, over(sre_foca3) blabel(total)	///
+bargap(5) graphregion(color(white)) title("Según área", position(12))  ///
+note("Nota: Rural incluye los tres gradientes de ruralidad", size(vsmall) position(7)) ///
+ ytitle("N. SRE") name(SRE_rural, replace) 
+ 
+ graph bar (count) sre_foca1 if sre_rank_upp <= 77, over(sre_foca4) blabel(total)	///
+bargap(5) graphregion(color(white)) title("Según tipo de comunidad", position(12))  ///
+ ytitle("N. SRE") name(SRE_nativa, replace)
+ 
+ 
+ graph bar (count) sre_foca1 if sre_rank_upp <= 77, over(sre_foca5) blabel(total)	///
+bargap(5) graphregion(color(white)) title("Según quintiles de pobreza", position(12))  ///
+ ytitle("N. SRE") name(SRE_pob, replace)
+
+ graph bar (count) sre_foca1 if sre_rank_upp <= 77, over(sre_foca6) blabel(total)	///
+bargap(5) graphregion(color(white)) title("Según tipo de zona", position(12))  ///
+ ytitle("N. SRE") name(SRE_zona, replace)
+ 
+graph combine SRE_rural SRE_nativa SRE_pob SRE_zona , ///
+ graphregion(color(white))  title("Distribución de IIEE SRE", position(12)) ///
+subtitle("De las 77 IIEE focalizadas por UPP") ///
+caption("Fuente: Elaboración propria con datos de DISER y Base Pura", size(vsmall) position(7))
+graph export "Output\SRE_UPP.png", replace
+
+ 
 *===============================END OF PROGRAM===============================*
 
