@@ -76,7 +76,22 @@ save `st'
 
 use "BasePuraIntegrada.dta", clear
 merge 1:m cod_mod anexo using `st'
+drop _m
+replace códigomodularcreadoparaST20 = "" if códigomodularcreadoparaST20 == "EN TRAMITE"
+rename cod_mod cod_mod_antiguo
+destring códigomodularcreadoparaST20, gen(cod_mod)
 
+preserve
+
+import dbase using "C:\Users\analistaup2\Downloads\Padron_web_20190918\Padron_web.dbf", clear
+destring COD_MOD , gen(cod_mod)
+destring ANEXO, gen(anexo)
+tempfile padron
+save  `padron'
+
+restore
+
+merge m:1 cod_mod anexo using `padron'
 	
 /*las dos IE que faltan en la base pura focalizadas en 2020 se ubican en Pasco
 PROVINCIA	DISTRITO
