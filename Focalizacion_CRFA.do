@@ -250,7 +250,11 @@ gen rank_upp = _n if tot_crfa == 1
 br rank_upp crfa_rank diser_crfa crfa_prio1 d_matri25 d_qaliwarma  d_pob d_zona tot_crfa 
 
 
+export excel rank_upp crfa_rank cod_mod cen_edu diser_crfa crfa_prio1 d_matri25 ///
+	d_qaliwarma  d_pob d_zona tot_crfa  using "Data sets Intermedios\Padron Focalizacion DISER.xls" if tot_crfa == 1, ///
+	sheet("CRFA") firstrow(varlabels) sheetreplace
 
-
+keep if  tot_crfa == 1
+save "Data sets Intermedios\CRFA.dta" , replace
 *===============================END OF PROGRAM===============================*
 

@@ -339,7 +339,12 @@ gen sre_rank_upp = _n if sre_foca1 == 1
 br sre_rank_upp sre_rank sre_focatot_upp sre_upp foc_residencias sre_prio1 plan sre_foca1 ///
 sre_foca2 sre_foca3 sre_foca4 sre_foca5 sre_foca6 plan sre_77 if sre_foca1 == 1
 
- *****************************
+export excel sre_rank_upp sre_rank sre_focatot_upp sre_upp foc_residencias sre_prio1 plan sre_foca1 ///
+sre_foca2 sre_foca3 sre_foca4 sre_foca5 sre_foca6 plan sre_77 cod_mod cen_edu ///
+using "Data sets Intermedios\Padron Focalizacion DISER.xls" if sre_foca1 == 1, ///
+ sheet("SRE") firstrow(varlabels) sheetreplace
+
+*****************************
  
  graph bar (count) sre_foca1 if sre_rank_upp <= 77, over(sre_foca3) blabel(total)	///
 bargap(5) graphregion(color(white)) title("Según área", position(12))  ///
@@ -364,6 +369,8 @@ graph combine SRE_rural SRE_nativa SRE_pob SRE_zona , ///
 subtitle("De las 77 IIEE focalizadas por UPP") ///
 caption("Fuente: Elaboración propria con datos de DISER y Base Pura", size(vsmall) position(7))
 graph export "Output\SRE_UPP.png", replace
+
+save "Data sets Intermedios\SRE.dta" , replace
 
  
 *===============================END OF PROGRAM===============================*
