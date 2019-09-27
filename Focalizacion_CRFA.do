@@ -1,5 +1,5 @@
 *************************************************
-*Project:		Focalizacion SRE (residencias) 	*
+*Project:		Focalizacion CRFA (alternancia)	*
 *Institution:	MINEDU             				*
 *Author:		Brenda Teruya					*
 *Last edited:	2019-09-23          			*
@@ -35,7 +35,6 @@ INDICE:
 *****************************************
 *#1.1. Focalizacion CRFA 2020			*
 *****************************************
-
 import excel "DISER\MSE Padrones 2020_20092019.xlsx",  sheet("SA 78") cellrange(A1:K79) firstrow clear
 destring CódigomodulardeCRFA , gen(cod_mod)
 gen anexo = 0
