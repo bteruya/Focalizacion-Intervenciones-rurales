@@ -73,6 +73,16 @@ use "BasePuraIntegrada.dta", clear
 keep if estado == "1" //activas
 drop if gestion == "3" //gestion privada drop
 
+merge m:1 cod_mod using  `crfa2020', gen(crfa_2020)
+
+label def crfa_2020 1 "No CRFA" 3 "CRFA"
+label val crfa_2020 crfa_2020
+
+gen diser_crfa = crfa_2020 == 3
+label var diser_crfa "CRFA focalizado 2020"
+label def diser_crfa 0 "No focalizado" 1 "CRFA 2020"
+label val diser_crfa diser_crfa
+keep if diser_crfa 
 *1.	Nombre de la IE "CRFA" 
 
 *Nota: Este criterio no es preciso porque hay colegios de alternancia sin el 
@@ -84,14 +94,13 @@ label var tot_crfa "IE CRFA"
 label def tot_crfa 0 "No CRFA" 1 "Sí CRFA"
 label val tot_crfa tot_crfa
 
-
 *2.	Matricula en Siagie > 0
 mvencode talumno_siagie, mv(0) override
 gen d_matri = talumno_siagie > 0 
 label var d_matri "Dummy que indica si la matricula del SIAGIE  es positiva"
 label def d_matri 0 "Cero" 1 "Positiva"
 label val d_matri d_matri
-tab tot_crfa d_matri
+tab diser_crfa d_matri
 
 *3.	Rural o urbana (cualquiera)
 
@@ -100,7 +109,7 @@ gen d_pob = quintiles_pobreza == 1 | quintiles_pobreza == 2
 label var d_pob "Criterio de pobreza"
 label def d_pob 0 "Quintil 3 4 5" 1 "Quintil 1 2 "
 label val d_pob d_pob
-tab d_pob tot_crfa if d_matri == 1
+tab d_pob diser_crfa if d_matri == 1
 
 *5.	Zona de conflicto
 mvencode vraem_rm093 huallaga frontera_rm093, mv(0) override  
@@ -113,7 +122,7 @@ gen d_zona = zona != 0
 label var d_zona "Criterio de zona de conflicto"
 label def d_zona 0 "Sin conflicto" 1 "VRAEM o Huallaga o frontera"
 label val d_zona d_zona
-tab d_zona tot_crfa if d_matri == 1 & d_pob == 1
+tab d_zona diser_crfa if d_matri == 1 & d_pob == 1
 
 *Cumple con todos los criterios, excluye el de nombre de la IE
 egen crfa_focatot=rowmean(d_matri d_pob d_zona )
@@ -124,9 +133,6 @@ egen crfa_focatot=rowmean(d_matri d_pob d_zona )
 *#3. CRUCE CON FOC. DISER	 *
 *============================*
 
-merge m:1 cod_mod using  `crfa2020', gen(crfa_2020)
-label def crfa_2020 1 "No CRFA" 3 "CRFA"
-label val crfa_2020 crfa_2020
 
 
 *================*
@@ -180,10 +186,6 @@ tab crfa_prio1 d_qaliwarma if crfa_2020 == 3 & d_matri25 == 1
 *================*
 
 *Para el ranking veremos si está focalizado
-gen diser_crfa = crfa_2020 == 3
-label var diser_crfa "CRFA focalizado 2020"
-label def diser_crfa 0 "No focalizado" 1 "CRFA 2020"
-label val diser_crfa diser_crfa
 
 egen crfa_priotot = rowmean(crfa_prio1 d_matri25 d_qaliwarma crfa_focatot diser_crfa) if tot_crfa == 1
 
@@ -223,6 +225,8 @@ CRITERIOS DE PRIORIZACION 2020 - OPERATIVIZADO:
 5. 	Zona de conflicto
 */
 
+
+
 *1.	CRFA focalizado en 2019
 tab crfa_prio1 if tot_crfa == 1
 
@@ -253,7 +257,6 @@ export excel rank_upp crfa_rank cod_mod cen_edu diser_crfa crfa_prio1 d_matri25 
 	d_qaliwarma  d_pob d_zona tot_crfa  using "Data sets Intermedios\Padron Focalizacion DISER.xls" if tot_crfa == 1, ///
 	sheet("CRFA") firstrow(varlabels) sheetreplace
 
-keep if  tot_crfa == 1
 save "Data sets Intermedios\CRFA.dta" , replace
 *===============================END OF PROGRAM===============================*
 

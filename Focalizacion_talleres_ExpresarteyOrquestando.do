@@ -45,12 +45,46 @@ gen anexo = 0
 tempfile expresarte
 save `expresarte'
 
+
+
 *****************************************
-*#1.2. Base pura						*
+*#1.2. Focalizacion orquestando 2020			*
+*****************************************
+import excel "DIGEBR\Padron - Orquestando.xlsx", sheet("1.12 Orquestando") ///
+cellrange(A3:G16) firstrow clear
+
+destring CódigoModular, gen(cod_mod)
+gen anexo = 0
+tempfile orquestando
+save `orquestando'
+
+*****************************************
+*#1.3. Deserción por distrito 			*
+*****************************************
+
+
+import excel "Censo Educativo\D._Permanencia_y_progreso-Tasa_de_deserción_permanente_en_Educación_Secundaria_(%_de_matrícula_final).xls", ///
+ sheet("Distrital") cellrange(B8:O1882) firstrow clear
+
+gen codgeo = CÓDIGO
+keep codgeo O
+rename O desercion_1618
+replace desercion_1618 = "" if desercion_1618 == "a"
+destring desercion_1618 , replace
+tempfile desercion
+save `desercion'
+
+
+*****************************************
+*#1.3. Base pura						*
 *****************************************
 
 use "BasePuraIntegrada.dta", clear
 keep if estado == "1" //activas
+
+
+
+
 
 *******************************************************************************
 
@@ -141,7 +175,7 @@ by codlocal: egen n_prim_sec = total(prim_sec)
 duplicates drop codlocal, force
 gen d_prim_sec = n_prim_sec == 2
 label var d_prim_sec "Dummy que indica si hay una primaria y secundaria en el mismo local"
-label def d_prim_sec 0 "No en el mismo local" 1 "Sí en el mismo local"
+label def d_prim_sec 0 "No mismo local" 1 "Sí mismo local"
 label val d_prim_sec d_prim_sec 
 keep codlocal d_prim_sec
 tempfile d_prim_sec 
@@ -190,9 +224,9 @@ tab d_alumno_200y1200 if expresarte == 1 & d_prim_sec == 1 & d_urb_polidocente =
 
 
 
-*==========================*
+*======================================*
 *#2. CRITERIOS FOCALIZACION Orquestando*
-*==========================*
+*======================================*
 
 /*
 -IIEE de regiones que cuenten con escuelas/conservatorios de música que puedan dotar de educadores musicales a la iniciativa pedagógica ORQUESTANDO.
@@ -208,7 +242,7 @@ tab d_alumno_200y1200 if expresarte == 1 & d_prim_sec == 1 & d_urb_polidocente =
 *Algunos criterios se repiten con Expresarte, tomaré solo los adicionales
 
 /*
-1. Conservatorio cerna (NO)
+1. Conservatorio cerca (NO)
 2. Distrito con alta deserción
 3. EBR polidocente completo y urbano (ya está)
 4. Nivel primaria y secundaria juntos (ya está)
@@ -217,5 +251,80 @@ tab d_alumno_200y1200 if expresarte == 1 & d_prim_sec == 1 & d_urb_polidocente =
 7. Turno mañana (ya está)
 8. Director en secundaria                                                                                                                                                            
 */
+
+
+merge 1:1 cod_mod anexo using `orquestando'
+gen orquestando = _m == 3
+label var orquestando "IE pertenece a orquestando"
+label def orquestando 0 "No orquestando" 1 "Sí orquestando"
+label val orquestando orquestando 
+drop _m
+
+merge m:1 codgeo using  `desercion', nogen
+
+*1. Conservatorio cerca (NO)
+
+*2. Distrito con alta deserción
+
+summ desercion_1618
+gen d_desercion2 = desercion_1618 < r(mean)
+label var d_desercion2 "La deserción del dist es mayor a la media del Perú"
+label def d_desercion2 0 "Menor a media" 1 "Mayor a media"
+label val d_desercion2 d_desercion2 
+
+tabstat desercion_1618 , stat(mean) by(d_desercion2) //Mayor a la media tiene más desercion
+tab d_desercion2 if orquestando == 1
+
+*3. EBR polidocente completo y urbano 
+
+tab urbano if orquestando == 1 
+tab polidocente if orquestando == 1
+tab d_urb_polidocente if orquestando == 1 
+
+*4. Nivel primaria y secundaria juntos 
+tab  d_prim_sec if orquestando == 1 & d_desercion2 == 1
+
+*5. Al menos 4 IIEE en el distrito 
+summ n_iiee if orquestando == 1
+
+*6. JEC 
+codebook foc_jec  if orquestando == 1 & d_desercion2 == 1
+
+*7. Turno mañana 
+tab turno_mna if orquestando == 1 & d_desercion2 == 1
+
+*8. Director en secundaria     ????
+
+ graph bar (count) orquestando if orquestando == 1, over(d_desercion2) blabel(total)	///
+bargap(5) graphregion(color(white)) title("Según deserción", position(12) size(small))  ///
+ ytitle("N. IIEE") ylabel(,nogrid ) name(Orquestando1, replace) 
+ 
+ graph bar (count) orquestando if orquestando == 1, over(d_urb_polidocente) blabel(total)	///
+bargap(5) graphregion(color(white)) title("Según urbano o polidocente", position(12) size(small))  ///
+ ytitle("N. IIEE") ylabel(,nogrid) name(Orquestando2, replace) 
+ 
+ graph bar (count) orquestando if orquestando == 1, over(d_prim_sec) blabel(total)	///
+bargap(5) graphregion(color(white)) title("Según primaria y secundaria en el mismo local", size(small) position(12))  ///
+ ytitle("N. IIEE") ylabel(,nogrid) name(Orquestando3, replace) 
+
+ graph bar (min) n_iiee , over(orquestando) blabel(total)	///
+bargap(5) graphregion(color(white)) title("Mínimo de IIEE en el distrito", position(12) size(small))  ///
+ ytitle("Mínimo N. IIEE") ylabel(,nogrid) name(Orquestando4, replace) 
+
+graph bar (count) orquestando if orquestando == 1, over(foc_jec) blabel(total)	///
+bargap(5) graphregion(color(white)) title("Según Jornada Regular o Completa", position(12) size(small))  ///
+ ytitle("N. IIEE") ylabel(,nogrid) name(Orquestando5, replace) 
+
+ 
+ graph bar (count) orquestando if orquestando == 1, over(turno_mna) blabel(total)	///
+bargap(5) graphregion(color(white)) title("Según condición de primaria y secundaria en el mismo local",  size(small) position(12))  ///
+ ytitle("N. IIEE") ylabel(,nogrid) name(Orquestando6, replace) 
+
+graph combine Orquestando1 Orquestando2 Orquestando3 Orquestando4 Orquestando5 Orquestando6 , ///
+ graphregion(color(white))  title("Distribución de IIEE Orquestando", position(12)) ///
+subtitle("De las 13 IIEE focalizadas por DIGEBR")  ///
+caption("Fuente: Elaboración propria con datos de DIGEBR y Base Pura", size(vsmall) position(7))
+graph export "Output\Orquestando.png", replace
+
 
 *===============================END OF PROGRAM===============================*
