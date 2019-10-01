@@ -46,7 +46,7 @@ tempfile sre2020_77
 save `sre2020_77'
 *AP SRE
 
-import excel "DISER\Padrón MSE Secundaria (16) Piloto AP 2020_DISER.xlsx", ///
+import excel "DISER\Padrón MSE Secundaria (16) Piloto AP 2020_DISER30  ACTUALIZADO.xlsx", ///
  sheet("Hoja1") cellrange(A17:R23) firstrow clear
 destring COD_MOD , gen(cod_mod)
 *La IE CESAR ABRAHAM VALLEJO MENDOZA está dos veces en el acompañamiento
