@@ -43,6 +43,17 @@ tempfile crfa2020
 save `crfa2020'
 
 
+*AP CRFA
+
+import excel "DISER\Padrón MSE Secundaria (16) Piloto AP 2020_DISER30  ACTUALIZADO.xlsx", ///
+ sheet("Hoja1") cellrange(A4:R14) firstrow clear
+destring COD_MOD , gen(cod_mod)
+gen anexo = 0
+
+tempfile crfa_ap
+save `crfa_ap'
+
+
 *******************************************************************************
 
 *==========================*
@@ -83,6 +94,15 @@ label var diser_crfa "CRFA focalizado 2020"
 label def diser_crfa 0 "No focalizado" 1 "CRFA 2020"
 label val diser_crfa diser_crfa
 keep if diser_crfa 
+
+merge 1:1 cod_mod anexo using `crfa_ap'
+
+gen ap_crfa = _m == 3
+drop _m
+label var ap_crfa "CRFA con Acompañamiento"
+label def ap_crfa 0 "No acompañamiento" 1 "Sí acompañamiento"
+label val ap_crfa ap_crfa 
+
 *1.	Nombre de la IE "CRFA" 
 
 *Nota: Este criterio no es preciso porque hay colegios de alternancia sin el 
@@ -254,7 +274,7 @@ br rank_upp crfa_rank diser_crfa crfa_prio1 d_matri25 d_qaliwarma  d_pob d_zona 
 
 
 export excel rank_upp crfa_rank cod_mod cen_edu diser_crfa crfa_prio1 d_matri25 ///
-	d_qaliwarma  d_pob d_zona tot_crfa  using "Data sets Intermedios\Padron Focalizacion DISER.xls" if tot_crfa == 1, ///
+	d_qaliwarma  d_pob d_zona tot_crfa ap_crfa  using "Data sets Intermedios\Padron Focalizacion DISER.xls" if tot_crfa == 1, ///
 	sheet("CRFA") firstrow(varlabels) sheetreplace
 
 save "Data sets Intermedios\CRFA.dta" , replace

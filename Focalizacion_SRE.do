@@ -44,6 +44,17 @@ gen anexo = 0
 
 tempfile sre2020_77
 save `sre2020_77'
+*AP SRE
+
+import excel "DISER\Padrón MSE Secundaria (16) Piloto AP 2020_DISER.xlsx", ///
+ sheet("Hoja1") cellrange(A17:R23) firstrow clear
+destring COD_MOD , gen(cod_mod)
+*La IE CESAR ABRAHAM VALLEJO MENDOZA está dos veces en el acompañamiento
+duplicates drop cod_mod, force
+gen anexo = 0
+tempfile sre_ap
+save `sre_ap'
+
 
 *****************************************
 *#1.2. Total de residencias SRE 		*
@@ -111,6 +122,14 @@ label val sre_77 sre_77
 label var sre_77 "¿La IE es focalizada por DISER?"
 
 merge 1:1 cod_mod anexo using `sre_plan_multisectorial', gen(x)
+
+merge 1:1 cod_mod anexo using  `sre_ap', gen(ap)
+
+gen ap_sre = ap == 3
+drop ap
+label var ap_sre "Acompañamiento a SRE"
+label def ap_sre 0 "No acompañamiento SRE" 1 "Sí acompañamiento SRE"
+label val ap_sre ap_sre
 
 *1.	Parte de la sre2020_173, totalidad de residencias
 gen sre_foca1 = _merge == 3
@@ -340,7 +359,7 @@ br sre_rank_upp sre_rank sre_focatot_upp sre_upp foc_residencias sre_prio1 plan 
 sre_foca2 sre_foca3 sre_foca4 sre_foca5 sre_foca6 plan sre_77 if sre_foca1 == 1
 
 export excel sre_rank_upp sre_rank sre_focatot_upp sre_upp foc_residencias sre_prio1 plan sre_foca1 ///
-sre_foca2 sre_foca3 sre_foca4 sre_foca5 sre_foca6 plan sre_77 cod_mod cen_edu ///
+sre_foca2 sre_foca3 sre_foca4 sre_foca5 sre_foca6 plan sre_77 cod_mod cen_edu ap_sre ///
 using "Data sets Intermedios\Padron Focalizacion DISER.xls" if sre_foca1 == 1, ///
  sheet("SRE") firstrow(varlabels) sheetreplace
 
