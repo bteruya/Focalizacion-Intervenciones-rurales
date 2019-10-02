@@ -12,7 +12,14 @@ Los alumnos reciben clase en un local y en casa. El local puede
 ser una primaria que tenga aulas libres, un local comunal o un local
 de la iglesia.
 
-## Focalizacion_talleres_ExpresarteyOrquestando
+## Focalizacion talleres Expresarte y Orquestando
 Los talleres deportivos recreativos expresarte y orquestando. El primero
 consiste en brindar habilidades blandas a través de manifestaciones artísticas
 Orquestando emplea la música para talleres
+
+## Focalizacion talleres Wiñaq
+Focalizacion del taller deportivo Wiñaq
+
+## Focalizacion PP106
+Focalizacion del programa presupuestal 106 para la integración de 
+personas con necesidades especiales
