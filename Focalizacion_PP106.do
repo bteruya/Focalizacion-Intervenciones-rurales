@@ -101,6 +101,8 @@ gen servicio = "CEBE-Primaria"
 tempfile codmod_cebep
 save `codmod_cebep'
 
+use `censo19_matri03', clear
+keep if TIPOREG == "1" & NROCED == "3AP" & CUADRO == "C204"
 
 *==========================*
 *#1.3. BD DIGESE		   *
