@@ -23,3 +23,13 @@ Focalizacion del taller deportivo Wiñaq
 ## Focalizacion PP106
 Focalizacion del programa presupuestal 106 para la integración de 
 personas con necesidades especiales
+
+## Dataprep ruralidad y Focalizacion ruralidad alumnos
+Se busca caracterizar IE y alumnos de los tres modelos de la ruralidad que 
+son CRFA, residencias y ST
+
+### Focalizacion ruralidad alumnos dataprep
+Prepara las bases de datos a usar en la caracterización
+
+### Focalizacion ruralidad alumnos datades
+Realiza las estadisticas descriptivas y analisis de las IIEE rurales

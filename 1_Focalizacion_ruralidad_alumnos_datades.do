@@ -4,9 +4,11 @@
 *Author:		Brenda Teruya					*
 *Last edited:	2019-010-15          			*
 *************************************************
-global ue C:\Users\analistaup2\Google Drive\Trabajo\MINEDU_trabajo\UE\Proyecciones\3. Data\4. Student level
 
-glo dd "C:\Users\analistaup2\Google Drive\Trabajo\MINEDU_trabajo\UPP\Actividades\Focalizacion"
+global minedu D:\Brenda GoogleDrive\Trabajo\MINEDU_trabajo
+global ue $minedu\UE\Proyecciones\3. Data\4. Student level
+
+glo dd "$minedu\UPP\Actividades\Focalizacion"
 set excelxlsxlargefile on
 cd "$dd\datos"
 
