@@ -1,35 +1,18 @@
-# Focalizacion de intervenciones rurales
+# DOFILES MINEDU UPP
 
-## CRFA Centro Rural de Formación en Alternancia
-Consiste en dos semanas en la IE y dos semanas en casa. 
+## PUN
+Concurso de ascenso y acceso a la carrera pública magisterial
 
-## SRE Secundaria con Residencia Estudiantil
-Un subconjunto de alumnos de la IE duermen en la residencia 
-que puede estar dentro de la IE o en una localidad cercana. (como internado)
+## Focalizacion
+Focalizacion de intervenciones rurales
 
-## ST Secundaria Tutorial
-Los alumnos reciben clase en un local y en casa. El local puede
-ser una primaria que tenga aulas libres, un local comunal o un local
-de la iglesia.
+## Archive
+Basurita
 
-## Focalizacion talleres Expresarte y Orquestando
-Los talleres deportivos recreativos expresarte y orquestando. El primero
-consiste en brindar habilidades blandas a través de manifestaciones artísticas
-Orquestando emplea la música para talleres
+## Rstudio 
+Mapas
 
-## Focalizacion talleres Wiñaq
-Focalizacion del taller deportivo Wiñaq
+## Dofiles DIGESE
 
-## Focalizacion PP106
-Focalizacion del programa presupuestal 106 para la integración de 
-personas con necesidades especiales
-
-## Dataprep ruralidad y Focalizacion ruralidad alumnos
-Se busca caracterizar IE y alumnos de los tres modelos de la ruralidad que 
-son CRFA, residencias y ST
-
-### Focalizacion ruralidad alumnos dataprep
-Prepara las bases de datos a usar en la caracterización
-
-### Focalizacion ruralidad alumnos datades
-Realiza las estadisticas descriptivas y analisis de las IIEE rurales
+## Pedidos extra
+Lo hecho fuera de focalizacion
