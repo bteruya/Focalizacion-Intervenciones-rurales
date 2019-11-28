@@ -1,0 +1,22 @@
+"0","```r
+mean_coordinates$max_dist <- dist_max_profesor$max_dist #en metros
+summary(mean_coordinates)
+```"
+"1","Object of class SpatialPointsDataFrame
+Coordinates:
+             min        max
+mean_x -81.29044 -69.042520
+mean_y -18.03162  -3.397127
+Is projected: FALSE 
+proj4string :
+[+init=epsg:4326 +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0]
+Number of points: 3799
+Data attributes:
+  documento            max_dist     
+ Length:3799        Min.   :     0  
+ Class :character   1st Qu.:  2588  
+ Mode  :character   Median : 13093  
+                    Mean   : 26021  
+                    3rd Qu.: 34488  
+                    Max.   :340292  
+"

@@ -1,0 +1,2 @@
+"0","BasePuraIntegrada <- read_dta(file = here( "".."","".."",""Datos"",""BasePuraIntegrada.dta""))"
+"0","PadronWeb <- read_dta(file = here( "".."","".."",""Datos"",""padronweb25092019.dta""))"

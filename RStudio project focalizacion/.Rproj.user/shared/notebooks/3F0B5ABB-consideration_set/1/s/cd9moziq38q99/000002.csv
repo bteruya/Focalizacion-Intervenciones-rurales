@@ -1,0 +1,14 @@
+"0","```r
+df_distancias_completo_gather %>% 
+  left_join(distancias_max, by = \"documento\") %>% 
+  skimr::skim(d_max_esta_si)
+
+```"
+"1","Skim summary statistics
+ n obs: 55742727 
+ n variables: 5 
+
+-- Variable type:numeric -------------------------------------------------------
+      variable missing complete        n     mean       sd p0     p25      p50      p75      p100     hist
+ d_max_esta_si       0 55742727 55742727 26038.18 35394.32  0 2629.39 13166.63 34488.81 340291.71 â–‡â–â–â–â–â–â–â–
+"

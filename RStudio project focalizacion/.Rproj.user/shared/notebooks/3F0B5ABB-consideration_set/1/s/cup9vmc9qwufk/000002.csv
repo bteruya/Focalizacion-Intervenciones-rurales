@@ -1,0 +1,10 @@
+"0","```r
+mean_preferences <- preferencias_menos4 %>%
+  select(documento, cod_mod, nlat_ie, nlong_ie) %>%
+  group_by(documento) %>%
+  mutate(mean_x = mean(nlong_ie),
+            mean_y = mean(nlat_ie)) %>% 
+  arrange(documento, cod_mod)
+coordinates(mean_preferences) = c(\"mean_x\", \"mean_y\")
+proj4string(mean_preferences) <- crs
+```"

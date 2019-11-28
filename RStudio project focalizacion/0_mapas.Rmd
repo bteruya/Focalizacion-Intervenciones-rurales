@@ -1,0 +1,162 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+ 
+# Cargar librerias
+```{r}
+library(haven)
+library(here)
+library(raster)
+library(sf)
+library(tidyverse)
+library(maptools)
+library(geosphere)
+library(dplyr)
+library(openxlsx)
+library(readxl)
+library(janitor)
+library(sf)
+library(maptools)
+library(geosphere)
+library(skimr)
+```
+# Cargar datos
+```{r}
+BasePuraIntegrada <- read_dta(file = here( "..","..","Datos","BasePuraIntegrada.dta"))
+
+PadronWeb <- read_dta(file = here( "..","..","Datos","padronweb25092019.dta"))
+  
+mseDISER <- read_excel(here( "..","..","Datos","DISER",
+                            "DISER_Intervenciones MSE Secundaria Rural DISER_2020_041019.xlsx"),
+                      sheet = "MSE", col_names = TRUE, range = "A3:AC195",
+                      na = c("", "missings")) %>%
+  clean_names()   
+
+crs <- CRS("+init=epsg:4326")
+
+  
+```
+
+# Cargar datos geograficos
+
+## Mapa del Peru
+```{r}
+regiones <- readShapePoly(here("..","..","Datos","GIS","PER_adm","PER_adm1.shp"))
+proj4string(regiones) <- crs
+
+plot(regiones)
+
+
+```
+
+## Todas las IE del padron web
+En el padron web estan todas las IE actualizadas
+Hay algunas (1341) que tienen missing en las coordenadas, esas las filtro
+Dibujo todo el resto de IE
+```{r}
+PadronWeb %>% 
+  select(nlat_ie) %>% 
+  skim()
+
+PadronWeb %>% 
+  select(nlat_ie) %>% 
+  filter(nlat_ie == 0) %>% 
+  skim()
+
+Padron_filter <- PadronWeb %>% 
+  filter(nlat_ie != 0) %>% 
+  select(cod_mod, anexo, nlat_ie, nlong_ie)  
+  
+
+coordinates(Padron_filter) = c("nlong_ie", "nlat_ie")
+#Proyectamos en UTM
+proj4string(Padron_filter) <- crs
+
+plot(Padron_filter)
+
+```
+
+## Todas las IE de DISER
+
+### Las IE sin coordenadas
+```{r}
+mseDISER %>% 
+ select(nlat_ie) %>% 
+  skim()
+
+mseDISER %>% 
+  select(nombre_ie, tippo_mse, nlat_ie) %>% 
+  filter(nlat_ie == 0) %>% 
+  count(tippo_mse)
+# Hay 19 ST sin coordenadas
+
+
+mseDISER %>% 
+  count(tippo_mse)
+```
+
+### Preparando para el plot
+```{r}
+
+mse_filter_residencia <- mseDISER %>% 
+  filter(nlat_ie != 0, 
+         tippo_mse == "Secundaria con residencia estudiantil") %>% 
+  select(cod_mod, anexo, nlat_ie, nlong_ie, tippo_mse)  
+
+coordinates(mse_filter_residencia) = c("nlong_ie", "nlat_ie")
+#Proyectamos en UTM
+proj4string(mse_filter_residencia) <- crs
+
+mse_filter_crfa <- mseDISER %>% 
+  filter(nlat_ie != 0, 
+         tippo_mse == "Secundaria en alternancia") %>% 
+  select(cod_mod, anexo, nlat_ie, nlong_ie, tippo_mse)  
+
+coordinates(mse_filter_crfa) = c("nlong_ie", "nlat_ie")
+#Proyectamos en UTM
+proj4string(mse_filter_crfa) <- crs
+
+mse_filter_st <- mseDISER %>% 
+  filter(nlat_ie != 0, 
+         tippo_mse == "Secundaria Tutorial") %>% 
+  select(cod_mod, anexo, nlat_ie, nlong_ie, tippo_mse)  
+
+coordinates(mse_filter_st) = c("nlong_ie", "nlat_ie")
+#Proyectamos en UTM
+proj4string(mse_filter_st) <- crs
+```
+
+
+
+# Plotear en el mapa las IE DISER y las IE PadronWeb
+```{r}
+plot(regiones)
+plot(mse_filter_crfa, pch=21, cex=0.7, add = TRUE, bg="red")
+plot(mse_filter_residencia, pch=21, cex=0.7, add = TRUE)
+plot(mse_filter_st, pch=21, cex=0.7, add = TRUE, bg="yellow")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

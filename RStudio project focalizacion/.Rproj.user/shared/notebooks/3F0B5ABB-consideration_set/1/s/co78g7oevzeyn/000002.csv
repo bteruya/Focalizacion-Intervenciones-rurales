@@ -1,0 +1,29 @@
+"0","```r
+mean_coordinates <- preferencias_menos4 %>%
+  select(documento, nlat_ie, nlong_ie) %>%
+  group_by(documento) %>%
+  summarise(mean_x = mean(nlong_ie),
+            mean_y = mean(nlat_ie)) %>% 
+  arrange(documento)
+#convertimos en dataframe espacial 
+coordinates(mean_coordinates) = c(\"mean_x\", \"mean_y\")
+#proyectamos
+proj4string(mean_coordinates) <- crs
+#verficar la proyeccion
+summary(mean_coordinates)
+```"
+"1","Object of class SpatialPointsDataFrame
+Coordinates:
+             min        max
+mean_x -81.29044 -69.042520
+mean_y -18.03162  -3.397127
+Is projected: FALSE 
+proj4string :
+[+init=epsg:4326 +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0]
+Number of points: 3799
+Data attributes:
+  documento        
+ Length:3799       
+ Class :character  
+ Mode  :character  
+"

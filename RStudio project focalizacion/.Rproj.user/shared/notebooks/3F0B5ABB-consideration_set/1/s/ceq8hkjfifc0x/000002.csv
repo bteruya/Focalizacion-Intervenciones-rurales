@@ -1,0 +1,8 @@
+"0","```r
+regiones <- readShapePoly(here(\"Data\",\"PER_adm\",\"PER_adm1.shp\"))
+```"
+"1","readShapePoly is deprecated; use rgdal::readOGR or sf::st_read
+"
+"0","```r
+proj4string(regiones) <- crs
+```"

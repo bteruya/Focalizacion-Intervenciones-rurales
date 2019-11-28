@@ -1,0 +1,27 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1571247396941.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3026998204",
+    "id" : "9BCD12DE",
+    "lastKnownWriteTime" : 1571330933,
+    "last_content_update" : 1571330933636,
+    "path" : "D:/Brenda GoogleDrive/Trabajo/MINEDU_trabajo/UPP/Actividades/Focalizacion/Codigos/RStudio project focalizacion/0_mapas.Rmd",
+    "project_path" : "0_mapas.Rmd",
+    "properties" : {
+        "chunk_output_type" : "inline",
+        "cursorPosition" : "133,0",
+        "scrollLine" : "120",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

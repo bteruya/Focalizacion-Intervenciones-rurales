@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1571256625786.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "77F25534",
+    "lastKnownWriteTime" : 2314885436532013365,
+    "last_content_update" : 1571256625786,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "8CB6FF",
+        "caption" : "PadronWeb",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=PadronWeb&cache_key=8CB6FF",
+        "displayedObservations" : 169396,
+        "environment" : "",
+        "expression" : "PadronWeb",
+        "object" : "PadronWeb",
+        "preview" : 0,
+        "totalObservations" : 169396,
+        "variables" : 55
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

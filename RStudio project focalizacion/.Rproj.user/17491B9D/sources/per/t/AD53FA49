@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1571258368575.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "AD53FA49",
+    "lastKnownWriteTime" : 3976785546167280225,
+    "last_content_update" : 1571258368575,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "D1BC4124",
+        "caption" : "mseDISER",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=mseDISER&cache_key=D1BC4124",
+        "displayedObservations" : 192,
+        "environment" : "",
+        "expression" : "mseDISER",
+        "object" : "mseDISER",
+        "preview" : 0,
+        "totalObservations" : 192,
+        "variables" : 29
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

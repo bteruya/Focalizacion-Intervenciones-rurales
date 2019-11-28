@@ -1,0 +1,7 @@
+"0","```r
+plot(regiones)
+plot(plazaoftada, cex = 0.7, add = TRUE)
+```"
+"0","```r
+plot(pref_menos4_filter, pch=21, bg=\"red\", cex=0.7, add = TRUE)
+```"

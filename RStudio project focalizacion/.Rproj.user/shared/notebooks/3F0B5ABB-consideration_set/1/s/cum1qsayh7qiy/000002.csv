@@ -1,0 +1,23 @@
+"0","```r
+#convertimos en dataframe espacial 
+coordinates(plazaoftada) = c(\"nlong_ie\", \"nlat_ie\")
+#proyectamos
+proj4string(plazaoftada) <- crs
+#verficar la proyeccion
+summary(plazaoftada)
+```"
+"1","Object of class SpatialPointsDataFrame
+Coordinates:
+              min      max
+nlong_ie -81.3059 -68.6592
+nlat_ie  -18.2593  -0.2859
+Is projected: FALSE 
+proj4string :
+[+init=epsg:4326 +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0]
+Number of points: 14673
+Data attributes:
+   cod_mod             d_dpto             d_prov             d_dist         
+ Length:14673       Length:14673       Length:14673       Length:14673      
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+"

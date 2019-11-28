@@ -1,0 +1,18 @@
+"0","```r
+preferencias_menos4 <- read_dta(file = here(\"Data\",\"seleccion_prim_fase_menos5_2015_22feb19.dta\"))
+plazaoftada <- read_csv(here(\"Data\",\"codmod_plazaoftada.csv\"))
+```"
+"1","Parsed with column specification:
+cols(
+  cod_mod = col_character(),
+  d_dpto = col_character(),
+  d_prov = col_character(),
+  d_dist = col_character(),
+  nlat_ie = col_double(),
+  nlong_ie = col_double()
+)
+"
+"0","```r
+#utilizamos coordenadas WGS 18S para proyecciones epsg:32718
+crs <- CRS(\"+init=epsg:4326\")
+```"

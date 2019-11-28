@@ -1,0 +1,19 @@
+Estas son las preguntas que surgieron al realizar los cálculos de selección de plazas 
+
+1. Listas plazas (plaza de modalidad e IE), debería usar este identificador, o me quedo con el código de plaza? Qué es listas plazas? 
+Debería ser todo comparable a lo largo del estudio. Lo voy a hacer solo con listas plaza pero luego actualizo la info, de acuerdo con 
+lo que quedemos. SIN DROP DE LISTAS PLAZAS
+
+2. Al calcular las horas efectivas se toma las horas unicamente de los docentes de aula. Los directivos y jerarquicos no, en ese 
+sentido las escuelas unidocentes que tienen un director profesor no estan presentes en ese calculo. Ese director profesor, deberia ser parte
+de las horas efectivas? Pero si ese director profesor es parte de las horas de clase, los demas directores no serian parte?
+Lo que he hecho hasta ahora es no tomar en cuenta a los directores para nada.
+HACER FILTRO PARA UNIDOCENTES
+
+3. Para hacer merge entre las bases de plazas ofertadas y balance de docentes, se usa codmod. Hay escuelas sin plazas ofertadas. Hay 
+plazas ofertadas que no tienen profesores efectivos (por falta de docentes en Nexus-70 unidocentes) o
+requeridos (falta de matrícula en SIAGIE). Las escuelas sin plazas, pienso que no entran en el análisi, pero las plazas sin balance
+no estoy segura qué hacer. Serían plazas ofertadas que no tienen profesores ex ante o que son unidocentes con solo un trabajador-director 
+(encontrar el %). También pueden ser plazas ofertadas sin matrícula en SIAGIE, estas serían como para abrir una escuela o algo similar.
+
+4. HAcer el cálculo de plazas faltantes en vez de 2017 para 2015

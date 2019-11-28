@@ -1,0 +1,8 @@
+"0","```r
+pref_menos4_filter <- preferencias_menos4 %>% 
+  select(documento, cod_mod, nlat_ie, nlong_ie) %>%
+  arrange(documento, cod_mod)
+coordinates(pref_menos4_filter) = c(\"nlong_ie\", \"nlat_ie\")
+#Proyectamos en UTM
+proj4string(pref_menos4_filter) <- crs
+```"

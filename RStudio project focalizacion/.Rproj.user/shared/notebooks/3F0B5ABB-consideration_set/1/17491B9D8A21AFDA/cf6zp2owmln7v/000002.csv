@@ -1,0 +1,3 @@
+"0","preferencias_menos4 <- read_dta(file = here(""Data"",""seleccion_prim_fase_menos5_2015_22feb19.dta""))"
+"2","Error: 'D:/Brenda GoogleDrive/Trabajo/MINEDU_trabajo/UPP/Actividades/Focalizacion/Codigos/RStudio project focalizacion/Data/seleccion_prim_fase_menos5_2015_22feb19.dta' does not exist.
+"

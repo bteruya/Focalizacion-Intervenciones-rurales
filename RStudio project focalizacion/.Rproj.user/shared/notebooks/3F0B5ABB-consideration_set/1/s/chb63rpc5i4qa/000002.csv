@@ -1,0 +1,12 @@
+"0","```r
+# Convert to simple feature
+my_df_1_sf <- st_as_sf(mean_preferences)
+my_df_2_sf <- st_as_sf(pref_menos4_filter)
+# Set projection based on the epsg code
+# st_transform(my_df_1_sf, crs = 32718)
+# st_transform(my_df_2_sf, crs = 32718)
+# 
+# st_crs(my_df_1_sf) <- 4326
+# st_crs(my_df_2_sf) <- 4326
+distancias <- st_distance(my_df_1_sf, my_df_2_sf, by_element = TRUE )
+```"

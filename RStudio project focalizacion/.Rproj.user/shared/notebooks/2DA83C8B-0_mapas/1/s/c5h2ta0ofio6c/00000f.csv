@@ -1,0 +1,1 @@
+"0","plot(mse_filter_residencia, pch=21, cex=0.7, add = TRUE)"
