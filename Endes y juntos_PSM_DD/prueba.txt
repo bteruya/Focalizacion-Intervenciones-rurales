@@ -1,0 +1,12 @@
+	(1)
+VARIABLES	Prueba
+	
+_treated	-0.413***
+	(0.0317)
+Constant	-1.336***
+	(0.0185)
+	
+Observations	4,718
+R-squared	0.035
+Standard errors in parentheses	
+*** p<0.01, ** p<0.05, * p<0.1	

@@ -154,13 +154,14 @@ spmap r_noselec using "Data sets Intermedios\reg-coord.dta", id(dpto) fcolor(BuR
  legtitle("Listas plazas no seleccionadas %") ///
  title("Distribución de listas plazas no seleccionadas" ///
 	"según Departamento, 2015", size(small)) ///
- caption("" ///
-	"" ///
+ caption("Nota: Una lista plaza no seleccionada es aquella que no tuvo candidatos." ///
+	"Por ejemplo, matemáticas en la escuela A queda desierta en la primera etapa." ///
 	, size(vsmall) position(7)) ///
 	 label(data("Data sets Intermedios\spmaplabels") xcoord(x_cc)  ycoord(y_cc) ///
   label(d_dpto) by(labtype) size(*0.5 ..) pos(12 0) )
 
 graph export "Output\plazanoselec.emf", as(emf) replace
+graph export "Output\plazanoselec.pdf", as(pdf) replace
 
 
 
@@ -176,5 +177,6 @@ spmap puntaje_total using "Data sets Intermedios\reg-coord.dta", id(dpto) fcolor
   label(lab_pun) by(labtype) size(*0.5 ..) pos(12 0) )
 
 graph export "Output\PUN_dpto.emf", as(emf) replace
+graph export "Output\PUN_dpto.pdf", as(pdf) replace
 
 
